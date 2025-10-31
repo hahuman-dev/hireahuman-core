@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "description": "Core multi-tenant service platform for HAHuman.",
   "scripts": {
+    "start": "ts-node src/index.ts",
+    "seed": "ts-node scripts/seed.ts",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "lint": "echo \"TODO: add eslint\"",
     "typecheck": "tsc --noEmit"
@@ -15,6 +17,7 @@
   "devDependencies": {
     "@types/express": "^5.0.5",
     "@types/pg": "^8.15.6",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
   }
