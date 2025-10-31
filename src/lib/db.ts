@@ -1,19 +1,21 @@
-// db.ts
-// Neon connection helper (no ORM for now)
-
 import { ENV } from "./env";
-import { Client } from "pg";
+import { Client, QueryResultRow } from "pg";
 
 export async function getClient() {
   const client = new Client({
     connectionString: ENV.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   });
   await client.connect();
   return client;
 }
 
-// Example tiny helper:
-export async function query<T = unknown>(text: string, params: any[] = []) {
+export async function query<T extends QueryResultRow = QueryResultRow>(
+  text: string,
+  params: any[] = []
+): Promise<T[]> {
   const client = await getClient();
   try {
     const res = await client.query<T>(text, params);
