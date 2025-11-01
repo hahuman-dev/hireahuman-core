@@ -1,19 +1,27 @@
-// index.ts (API router layer)
-// This is where you'd wire routes -> handlers.
+import { Application, Request, Response } from "express";
+import * as tenants from "./tenants";
+import * as users from "./users";
+import * as services from "./services";
+import * as bookings from "./bookings";
 
-import { Request, Response } from "express";
-
-export function registerRoutes(app: any) {
+export function registerRoutes(app: Application) {
+  // health
   app.get("/health", (_req: Request, res: Response) => {
     res.json({ ok: true });
   });
 
-  // Tenants
-  app.get("/tenants", require("./tenants").listTenants);
-  // Users
-  app.get("/tenants/:tenantId/users", require("./users").listUsersForTenant);
-  // Services
-  app.get("/tenants/:tenantId/services", require("./services").listServicesForTenant);
-  // Bookings
-  app.get("/tenants/:tenantId/bookings", require("./bookings").listBookingsForTenant);
+  // tenants
+  app.get("/tenants", tenants.listTenants);
+  app.get("/tenants/:tenantId", tenants.getTenantById);
+  app.get("/tenants/by-slug/:slug", tenants.getTenantBySlug);
+
+  // users
+  app.get("/tenants/:tenantId/users", users.listUsersForTenant);
+
+  // services
+  app.get("/tenants/:tenantId/services", services.listServicesForTenant);
+
+  // bookings
+  app.get("/tenants/:tenantId/bookings", bookings.listBookingsForTenant);
+  app.post("/bookings", bookings.createBooking);
 }

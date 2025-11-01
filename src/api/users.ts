@@ -10,5 +10,5 @@ export async function listUsersForTenant(req: Request, res: Response) {
      ORDER BY created_at ASC`,
     [tenantId]
   );
-  res.json(rows);
+  res.json({ data: rows, error: null });
 }
