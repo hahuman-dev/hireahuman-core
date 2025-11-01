@@ -9,3 +9,9 @@ Update it freely.
 ### That marks your bash scripts as “executable” — they’ll then run properly from make.
 
 chmod +x db/scripts/*.sh
+
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa_personal
+ssh-add ~/.ssh/id_rsa_hah
+
+ssh -T git@github-HAH
