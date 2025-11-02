@@ -12,6 +12,7 @@ app.use(
       "http://localhost:3000",
       "http://127.0.0.1:3000",
       "https://app.hireahuman.com",
+      "https://app-dev.hireahuman.com",
       "https://hireahuman.com",
     ],
     credentials: true,
