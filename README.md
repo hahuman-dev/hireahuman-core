@@ -16,3 +16,12 @@ Tech:
 
 See /docs for architecture and data model.
 See /db for schema and seed.
+
+#TS Setup
+"module": "esnext" + "moduleResolution": "bundler" = ESM mode
+
+Node/ts-node in ESM mode wants explicit .js extensions and full URLs
+
+## tsconfig.json → (for Next.js frontend)
+## tsconfig.api.json (API)
+## Base config (shared by both)

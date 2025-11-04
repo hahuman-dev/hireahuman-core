@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { Client } from "pg";
 
-import rawSeed from "../db/seeds/seed.json" with { type: "json" };
+import rawSeed from "../db/seeds/seed.json"
 const seed = rawSeed as SeedFile;
 
 type TenantSeed = {
@@ -90,13 +90,20 @@ async function run() {
 
       await client.query(
         `INSERT INTO service (id, tenant_id, name, category, pricing_json, metadata_json, active)
-     VALUES (COALESCE($1, gen_random_uuid()), $2, $3, $4, $5, $6, true)
-     ON CONFLICT (id) DO UPDATE
-       SET name=EXCLUDED.name,
-           category=EXCLUDED.category,
-           pricing_json=EXCLUDED.pricing_json,
-           metadata_json=EXCLUDED.metadata_json`,
-        [s.id ?? null, tenantId, s.name, s.category, s.pricing_json ?? {}, s.metadata_json ?? {}]
+   VALUES (COALESCE($1::text, gen_random_uuid()::text), $2, $3, $4, $5, $6, true)
+   ON CONFLICT (id) DO UPDATE
+     SET name=EXCLUDED.name,
+         category=EXCLUDED.category,
+         pricing_json=EXCLUDED.pricing_json,
+         metadata_json=EXCLUDED.metadata_json`,
+        [
+          s.id ?? null,          // can be 's-justcall-plumber' or null
+          tenantId,              // resolved earlier
+          s.name,
+          s.category,
+          s.pricing_json ?? {},
+          s.metadata_json ?? {},
+        ]
       );
     }
     await client.query("COMMIT");
