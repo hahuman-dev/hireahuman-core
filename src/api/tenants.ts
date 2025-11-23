@@ -1,12 +1,23 @@
 import { Request, Response } from "express";
 import { query } from "../lib/db";
 
-export async function listTenants(_req: Request, res: Response) {
-  const rows = await query(
-    `SELECT id, name, slug, industry, plan, config_json, theme_json, created_at
-     FROM tenant
-     ORDER BY created_at ASC`
-  );
+export async function listTenants(req: Request, res: Response) {
+  const { industry } = req.query;
+
+  let sql = `
+    SELECT id, name, slug, industry, plan, config_json, theme_json, created_at
+    FROM tenant
+  `;
+  const params: any[] = [];
+
+  if (industry) {
+    params.push(industry);
+    sql += ` WHERE industry = $1`;
+  }
+
+  sql += ` ORDER BY created_at ASC`;
+
+  const rows = await query(sql, params);
   res.json({ data: rows, error: null });
 }
 

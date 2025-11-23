@@ -5,24 +5,26 @@ import * as tenants from "./tenants";
 import * as users from "./users";
 import * as services from "./services";
 import * as bookings from "./bookings";
+// src/app.ts
+import tenantSettingsRouter from "../routes/tenantSettings";
 
 export function registerRoutes(app: Application) {
   // health
-  app.get("/health", (_req: Request, res: Response) => {
+  app.get("/api/health", (_req: Request, res: Response) => {
     res.json({ ok: true });
   });
 
   //
   // TENANTS
   //
-  app.get("/tenants", tenants.listTenants);
-  app.get("/tenants/:tenantId", tenants.getTenantById);
-  app.get("/tenants/by-slug/:slug", tenants.getTenantBySlug);
+  app.get("/api/tenants", tenants.listTenants);
+  app.get("/api/tenants/:tenantId", tenants.getTenantById);
+  app.get("/api/tenants/by-slug/:slug", tenants.getTenantBySlug);
 
   //
   // USERS (per tenant)
   //
-  app.get("/tenants/:tenantId/users", users.listUsersForTenant);
+  app.get("/api/tenants/:tenantId/users", users.listUsersForTenant);
   // later:
   // app.post("/tenants/:tenantId/users", users.createUserForTenant);
   // app.patch("/users/:userId", users.updateUser);
@@ -30,14 +32,15 @@ export function registerRoutes(app: Application) {
   //
   // SERVICES (per tenant)
   //
-  app.get("/tenants/:tenantId/services", services.listServicesForTenant);
+  app.get("/api/tenants/:tenantId/services", services.listServicesForTenant);
 
   //
   // BOOKINGS (per tenant)
   //
-  app.get("/tenants/:tenantId/bookings", bookings.listBookingsForTenant);
-  app.post("/bookings", bookings.createBooking);
+  app.get("/api/tenants/:tenantId/bookings", bookings.listBookingsForTenant);
+  app.post("/api/bookings", bookings.createBooking);
 
+  app.use("/api", tenantSettingsRouter);
   //
   // 404 fallback (optional, nice to have)
   //
