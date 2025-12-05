@@ -1,4 +1,0 @@
-NODE_ENV=development
-PORT=3000
-DATABASE_URL=postgres://user:password@your-neon-host/db-name
-API_KEY=super-secret-dev-key
