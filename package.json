@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Core multi-tenant service platform for HAHuman.",
   "scripts": {
-    "dev": "tsx --env-file=.env src/index.ts",
+    "dev": "tsx --env-file=.env src/index.ts -p 3001",
     "seed": "tsx --env-file=.env scripts/seed.ts",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/src/index.js",
